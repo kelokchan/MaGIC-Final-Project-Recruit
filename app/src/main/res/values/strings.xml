@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Recruit</string>
+    <string name="action_settings">Settings</string>
+    <string name="one">One</string>
+    <string name="search">Search</string>
+    <string name="filter_candidates">Filter candidates...</string>
+</resources>
