@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
         View focusView = null;
 
         // Check for a valid passwordView, if the user entered one.
-        if (!ispasswordViewValid(password)) {
+        if (!isPasswordViewValid(password)) {
             passwordView.setError(getString(R.string.error_invalid_password));
             focusView = passwordView;
             cancel = true;
@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
             emailView.setError(getString(R.string.error_field_required));
             focusView = emailView;
             cancel = true;
-        } else if (!isemailViewValid(email)) {
+        } else if (!isEmailViewValid(email)) {
             emailView.setError(getString(R.string.error_invalid_email));
             focusView = emailView;
             cancel = true;
@@ -157,12 +157,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isemailViewValid(String emailView) {
+    private boolean isEmailViewValid(String emailView) {
         //TODO: Replace this with your own logic
         return !emailView.isEmpty();
     }
 
-    private boolean ispasswordViewValid(String passwordView) {
+    private boolean isPasswordViewValid(String passwordView) {
         //TODO: Replace this with your own logic
         return !passwordView.isEmpty();
     }
@@ -217,7 +217,6 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
             try {
                 // Simulate network access.
@@ -282,8 +281,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void netReceivedToken(CirclesServer.TokenModel token) {
         Toast.makeText(this, "Received token: " + token.access_token, Toast.LENGTH_SHORT).show();
-
-        // TODO save token into preferences
 
         // Show user content activity
         Intent intent = new Intent(this, MainActivity.class);
