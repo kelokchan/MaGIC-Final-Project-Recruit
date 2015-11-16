@@ -26,11 +26,81 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.View
 
     private List<Candidate> candidates;
     private List<Candidate> fullCandidates;
+    OnItemClickListener mItemClickListener;
+
 
     public CandidateAdapter(List<Candidate> candidates) {
         this.candidates = candidates;
         fullCandidates = this.candidates;
     }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @Bind(R.id.person_name)
+        TextView personName;
+        @Bind(R.id.person_age)
+        TextView personAge;
+        @Bind(R.id.photo)
+        CircleImageView personPhoto;
+        @Bind(R.id.most_experienced)
+        TextView personExp;
+        @Bind(R.id.recommend)
+        TextView recommend;
+
+        protected View mRootView;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            mRootView = itemView;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mItemClickListener.onItemClick(v, getPosition());
+        }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void SetOnItemClickListener(final OnItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
+    }
+
+    @Override
+    public CandidateAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_candidate, parent, false);
+        ViewHolder pvh = new ViewHolder(v);
+        return pvh;
+    }
+
+    @Override
+    public void onBindViewHolder(CandidateAdapter.ViewHolder holder, int i) {
+        Context context = holder.personPhoto.getContext();
+        holder.personName.setText(candidates.get(i).name);
+        holder.personAge.setText(candidates.get(i).age);
+        int gender = candidates.get(i).gender;
+        if (gender == 0) {
+            Picasso.with(context).load(R.drawable.ic_male).into(holder.personPhoto);
+        } else {
+            Picasso.with(context).load(R.drawable.ic_female).into(holder.personPhoto);
+        }
+        holder.personExp.setText(candidates.get(i).most_experienced);
+        holder.recommend.setText(String.valueOf(candidates.get(i).recommend));
+    }
+
+    @Override
+    public int getItemCount() {
+        return candidates.size();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
+
 
     @Override
     public Filter getFilter() {
@@ -43,7 +113,7 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.View
                 if (results != null && results.count > 0) {
                     candidates = (List<Candidate>) results.values;
                     notifyDataSetChanged();
-                }else{
+                } else {
                     candidates = fullCandidates;
                     notifyDataSetChanged();
                 }
@@ -81,53 +151,4 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.View
         return filter;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.person_name)
-        TextView personName;
-        @Bind(R.id.person_age)
-        TextView personAge;
-        @Bind(R.id.person_photo)
-        CircleImageView personPhoto;
-        @Bind(R.id.most_experienced)
-        TextView personExp;
-        @Bind(R.id.recommend)
-        TextView recommend;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
-
-    @Override
-    public CandidateAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_candidate, parent, false);
-        ViewHolder pvh = new ViewHolder(v);
-        return pvh;
-    }
-
-    @Override
-    public void onBindViewHolder(CandidateAdapter.ViewHolder holder, int i) {
-        Context context = holder.personPhoto.getContext();
-        holder.personName.setText(candidates.get(i).name);
-        holder.personAge.setText(candidates.get(i).age);
-        int gender = candidates.get(i).gender;
-        if (gender == 0) {
-            Picasso.with(context).load(R.drawable.ic_male).into(holder.personPhoto);
-        } else {
-            Picasso.with(context).load(R.drawable.ic_female).into(holder.personPhoto);
-        }
-        holder.personExp.setText(candidates.get(i).most_experienced);
-        holder.recommend.setText(String.valueOf(candidates.get(i).recommend));
-    }
-
-    @Override
-    public int getItemCount() {
-        return candidates.size();
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
 }

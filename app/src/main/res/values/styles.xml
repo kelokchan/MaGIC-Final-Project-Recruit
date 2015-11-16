@@ -21,6 +21,11 @@
 
     <style name="MyMaterialTheme" parent="MyMaterialTheme.Base"/>
 
+    <style name="WhiteButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">#999</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
 
     <style name="MyButtonStyle" parent="Widget.AppCompat.Button.Colored">
         <item name="android:textColor">#ffffff</item>
@@ -33,5 +38,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="MyMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="MyMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

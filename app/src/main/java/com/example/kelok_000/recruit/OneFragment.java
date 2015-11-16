@@ -1,14 +1,17 @@
 package com.example.kelok_000.recruit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,6 +106,21 @@ public class OneFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mAdapter.SetOnItemClickListener(new CandidateAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.e("TOUCH", "TOUCHED");
+                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                intent.putExtra("Candidate", candidates.get(position));
+                startActivity(intent);
+            }
+        });
     }
 
     private void refreshContent() {

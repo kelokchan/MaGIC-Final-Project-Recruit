@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.content) View mLoginFormView;
     @Bind(R.id.login_progress) ProgressBar mProgressView;
     @Bind(R.id.profile) ImageView profileView;
+    @Bind(R.id.typeContent) View typeContent;
 
     public final CallChannel channel = new CallChannel();
 
@@ -73,13 +74,14 @@ public class LoginActivity extends AppCompatActivity {
         String username = preferences.getString("username", null);
         String password = preferences.getString("password", null);
 
+
         if(username == null || password == null) {
             // Not yet created any account, show login form
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     //Do something after 100ms
-                    mLoginFormView.setVisibility(View.VISIBLE);
+                    typeContent.setVisibility(View.VISIBLE);
                 }
             }, 2000);
         }
@@ -102,7 +104,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    
+    @OnClick({R.id.employeeBtn, R.id.employerBtn})
+    public void showLogin(){
+        typeContent.setVisibility(View.GONE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mLoginFormView.setVisibility(View.VISIBLE);
+            }
+        }, 100);
+    }
+
 
     /**
      * Attempts to sign in or register the account specified by the login form.
